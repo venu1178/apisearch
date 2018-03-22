@@ -20,12 +20,32 @@ restService.post("/apisearch", function(req, res) {
     req.body.result.parameters.echoText
       ? req.body.result.parameters.echoText
       : "Seems like some problem. Speak again.";
-  return res.json({
+    require('request').get({
+                uri:"https://api.enterprise.apigee.com/v1/organizations/sukhada/apis",
+                headers:{
+          'content-type' : 'application/x-www-form-urlencoded',
+          'Authorization': 'Basic c3N1cmJoaUBzYXBpZW50LmNvbTpTdXJiaGkjMQ=='
+        },
+
+                },function(err,response,body){
+                                console.log(body);
+                                console.log(response.statusCode);
+                                res.send({
+        speech: body,
+        displayText: "{product,customer,listing,location}",
+        source: "Apisearch"
+      }); 
+      });
+   
+ /* return res.json({
     speech: "{product, list, location, customer}",
     displayText: "{product,customer,listing,location}",
     source: "Apisearch"
-  });
+  });*/
 });
+
+
+
 
 restService.post("/audio", function(req, res) {
   var speech = "";
