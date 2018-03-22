@@ -30,8 +30,16 @@ restService.post("/apisearch", function(req, res) {
                 },function(err,response,body){
                                 console.log(body);
                                 console.log(response.statusCode);
+
+            var stringData="";
+            var proxies = JSON.parse(body);
+
+            for(var i=0; i< proxies.length;i++){
+              stringData += proxies[i] + "\n";
+             }
+
             return res.json({
-                speech: "Hello Proxies",//JSON.parse(body),
+                speech: stringData,//JSON.parse(body),
                 displayText: "{product,customer,listing,location}",
                 source: "Apisearch"
               });
