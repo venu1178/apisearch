@@ -30,11 +30,11 @@ restService.post("/apisearch", function(req, res) {
                 },function(err,response,body){
                                 console.log(body);
                                 console.log(response.statusCode);
-                                res.send({
-        speech: body,
-        displayText: "{product,customer,listing,location}",
-        source: "Apisearch"
-      }); 
+            return res.json({
+                speech: "{product, list, location, customer}",
+                displayText: "{product,customer,listing,location}",
+                source: "Apisearch"
+              });
       });
    
  /* return res.json({
