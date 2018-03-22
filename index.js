@@ -31,7 +31,7 @@ restService.post("/apisearch", function(req, res) {
                                 console.log(body);
                                 console.log(response.statusCode);
             return res.json({
-                speech: "{product, list, location, customer}",
+                speech: JSON.parse(body),
                 displayText: "{product,customer,listing,location}",
                 source: "Apisearch"
               });
