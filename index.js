@@ -21,7 +21,7 @@ restService.post("/apisearch", function(req, res) {
       ? req.body.result.parameters.echoText
       : "Seems like some problem. Speak again.";
   return res.json({
-    speech: speech,
+    speech: "{product, list, location, customer}",
     displayText: "{product,customer,listing,location}",
     source: "Apisearch"
   });
