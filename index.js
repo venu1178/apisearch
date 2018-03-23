@@ -34,9 +34,9 @@ restService.post("/apisearch", function(req, res) {
 
             var stringData="";
             var proxies = JSON.parse(body);
-
+            var proxystring = JSON.stringify(proxies)
             for(var i=0; i< proxies.length;i++){
-              stringData += proxies[i] + os.EOL;
+              stringData += proxies[i]+"," ;
              }
 
             return res.json({
