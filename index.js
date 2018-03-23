@@ -2,6 +2,7 @@
 
 const express = require("express");
 const bodyParser = require("body-parser");
+var os = require("os");
 
 const restService = express();
 
@@ -35,7 +36,7 @@ restService.post("/apisearch", function(req, res) {
             var proxies = JSON.parse(body);
 
             for(var i=0; i< proxies.length;i++){
-              stringData += proxies[i] + "\n";
+              stringData += proxies[i] + os.EOL;
              }
 
             return res.json({
