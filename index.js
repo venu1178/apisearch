@@ -31,7 +31,7 @@ restService.post("/apisearch", function(req, res) {
       var Proxylist = req.body.result.parameters.Proxylist
       var ProxyName = req.body.result.parameters.ProxyName
 
-  if(act!=null || ProxyName != null){
+  if(Proxylist!=null || ProxyName != null){
     console.log("-------2-----"+"api serach")
     var apiName = req.query.apiName;
     if(apiName !=undefined){
