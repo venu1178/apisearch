@@ -34,9 +34,9 @@ restService.post("/apisearch", function(req, res) {
   if(Proxylist!=null || proxyName != null){
     console.log("-------2-----"+"api serach")
     var apiName = req.query.apiName;
-    if(apiName !=undefined){
+    if(proxyName != null){
       console.log("not undefined "+"apiserach")
-      apigeeUri ="https://api.enterprise.apigee.com/v1/organizations/venu1178/apis/"+apiName;
+      apigeeUri ="https://api.enterprise.apigee.com/v1/organizations/venu1178/apis/"+proxyName;
       apiName = null;
     }else{
       apigeeUri ="https://api.enterprise.apigee.com/v1/organizations/venu1178/apis"
