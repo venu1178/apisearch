@@ -28,9 +28,10 @@ restService.post("/apisearch", function(req, res) {
 
       console.log("----1-----"+req.query.echoText)
       console.log("----api name "+req.query.apiName)
-      var act = req.body.result.parameters.Proxylist
+      var Proxylist = req.body.result.parameters.Proxylist
+      var ProxyName = eq.body.result.parameters.ProxyName
 
-  if(act!=null){
+  if(act!=null || ProxyName != null){
     console.log("-------2-----"+"api serach")
     var apiName = req.query.apiName;
     if(apiName !=undefined){
@@ -130,7 +131,7 @@ restService.post("/apisearch", function(req, res) {
       });
   }else{
     return res.json({
-                speech: req.body.result.parameters.apiName,//JSON.parse(body),
+                speech: req.body.result.parameters.Proxylist,//JSON.parse(body),
                 displayText: "{product,customer,listing,location}",
                 source: "Apisearch"
                 
