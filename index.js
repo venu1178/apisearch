@@ -30,6 +30,9 @@ restService.post("/apisearch", function(req, res) {
       console.log("----api name "+req.query.apiName)
       var Proxylist = req.body.result.parameters.Proxylist
       var proxyName = req.body.result.parameters.proxyName
+      var depName =req.body.result.parameters.depName
+      var kvmList = req.body.result.parameters.kvmList
+      var kvmName = req.body.result.parameters.kvmName
 
   if(Proxylist!=null || proxyName != null){
     console.log("-------2-----"+"api serach")
@@ -67,10 +70,10 @@ restService.post("/apisearch", function(req, res) {
             apiName = null;
       });
    
-  }else if(act=="apideployments"){
+  }else if(depName!=null){
     console.log("------------"+"api deployments")
-    var apiName = req.query.apiName;
-    var depluri = "https://api.enterprise.apigee.com/v1/organizations/venu1178/apis/"+apiName+"/deployments"
+    
+    var depluri = "https://api.enterprise.apigee.com/v1/organizations/venu1178/apis/"+depName+"/deployments"
     console.log("-depl uri"+depluri)
     require('request').get({
                 uri:depluri,
@@ -96,13 +99,11 @@ restService.post("/apisearch", function(req, res) {
             apiName = null;
       });
 
-  }else if(act=="kvms"){
-    console.log("------------"+"api kvms")
-    var kvmname = req.query.kvmName;
-    console.log("----kvmname--------"+kvmname)
+  }else if(kvmList!=null || kvmName != null){
+    
     var kvmuri ="https://api.enterprise.apigee.com/v1/organizations/venu1178/environments/test/keyvaluemaps"
-    if(kvmname!=undefined){
-      kvmuri ="https://api.enterprise.apigee.com/v1/organizations/venu1178/environments/test/keyvaluemaps/"+kvmname
+    if(kvmName!=null){
+      kvmuri ="https://api.enterprise.apigee.com/v1/organizations/venu1178/environments/test/keyvaluemaps/"+kvmName
     }
      require('request').get({
                 uri:kvmuri,
@@ -131,7 +132,7 @@ restService.post("/apisearch", function(req, res) {
       });
   }else{
     return res.json({
-                speech: req.body.result.parameters.ProxyName,//JSON.parse(body),
+                speech: ProxyName + "|" + proxyName+ "|" + depName + "|" + kvmList + "|" + kvmName,//JSON.parse(body),
                 displayText: "{product,customer,listing,location}",
                 source: "Apisearch"
                 
