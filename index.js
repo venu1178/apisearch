@@ -5,12 +5,16 @@ const bodyParser = require("body-parser");
 var os = require("os");
 
 const restService = express();
+var apigeeUri ="https://api.enterprise.apigee.com/v1/organizations/venu1178/apis";
+var contenttype = 'application/x-www-form-urlencoded';
+var auth = 'Basic dmVudWdvd2RhQGdtYWlsLmNvbTpBcGlnZWVAMTE3OA==';
 
 restService.use(
   bodyParser.urlencoded({
-    extended: true
+    extended: false
   })
 );
+
 
 restService.use(bodyParser.json());
 
@@ -21,16 +25,60 @@ restService.post("/apisearch", function(req, res) {
     req.body.result.parameters.echoText
       ? req.body.result.parameters.echoText
       : "Seems like some problem. Speak again.";
+
+      console.log("----1-----"+req.query.echoText)
+      console.log("----api name "+req.query.apiName)
+      var act = req.query.echoText
+
+  if(act=="apisearch"){
+    console.log("-------2-----"+"api serach")
+    var apiName = req.query.apiName;
+    if(apiName !=undefined){
+      console.log("not undefined "+"apiserach")
+      apigeeUri ="https://api.enterprise.apigee.com/v1/organizations/venu1178/apis/"+apiName;
+      apiName = null;
+    }else{
+      apigeeUri ="https://api.enterprise.apigee.com/v1/organizations/venu1178/apis"
+    }
+    console.log("------------"+apigeeUri)
     require('request').get({
-                uri:"https://api.enterprise.apigee.com/v1/organizations/sukhada/apis",
+                uri:apigeeUri,
                 headers:{
-          'content-type' : 'application/x-www-form-urlencoded',
-          'Authorization': 'Basic c3N1cmJoaUBzYXBpZW50LmNvbTpTdXJiaGkjMQ=='
+          'content-type' : contenttype,
+          'Authorization': auth
         },
 
                 },function(err,response,body){
-                                console.log(body);
-                                console.log(response.statusCode);
+ 
+            var stringData="";
+            var proxies = JSON.parse(body);
+            var proxystring = JSON.stringify(proxies)
+            for(var i=0; i< proxies.length;i++){
+              stringData += proxies[i]+"," ;
+             }
+
+            return res.json({
+                speech: proxystring,//JSON.parse(body),
+                displayText: "{product,customer,listing,location}",
+                source: "Apisearch"
+                
+              });
+            apiName = null;
+      });
+   
+  }else if(act=="apideployments"){
+    console.log("------------"+"api deployments")
+    var apiName = req.query.apiName;
+    var depluri = "https://api.enterprise.apigee.com/v1/organizations/venu1178/apis/"+apiName+"/deployments"
+    console.log("-depl uri"+depluri)
+    require('request').get({
+                uri:depluri,
+                headers:{
+          'content-type' : contenttype,
+          'Authorization': auth
+        },
+
+                },function(err,response,body){
 
             var stringData="";
             var proxies = JSON.parse(body);
@@ -40,12 +88,55 @@ restService.post("/apisearch", function(req, res) {
              }
 
             return res.json({
-                speech: stringData,//JSON.parse(body),
+                speech: proxystring,//JSON.parse(body),
                 displayText: "{product,customer,listing,location}",
                 source: "Apisearch"
               });
+            apiName = null;
       });
-   
+
+  }else if(act=="kvms"){
+    console.log("------------"+"api kvms")
+    var kvmname = req.query.kvmName;
+    console.log("----kvmname--------"+kvmname)
+    var kvmuri ="https://api.enterprise.apigee.com/v1/organizations/venu1178/environments/test/keyvaluemaps"
+    if(kvmname!=undefined){
+      kvmuri ="https://api.enterprise.apigee.com/v1/organizations/venu1178/environments/test/keyvaluemaps/"+kvmname
+    }
+     require('request').get({
+                uri:kvmuri,
+                headers:{
+          'content-type' : contenttype,
+          'Authorization': auth
+        },
+
+                },function(err,response,body){
+
+            var stringData="";
+            var proxies = JSON.parse(body);
+            var proxystring = JSON.stringify(proxies)
+            var newstring = proxystring.replace("", '');
+            for(var i=0; i< proxies.length;i++){
+              stringData += proxies[i]+"," ;
+             }
+
+            return res.json({
+                speech: newstring,//JSON.parse(body),
+                displayText: "{product,customer,listing,location}",
+                source: "Apisearch"
+                
+              });
+            kvmname = null;
+      });
+  }else{
+    return res.json({
+                speech: "newstring",//JSON.parse(body),
+                displayText: "{product,customer,listing,location}",
+                source: "Apisearch"
+                
+              });
+  }  
+    
  /* return res.json({
     speech: "{product, list, location, customer}",
     displayText: "{product,customer,listing,location}",
