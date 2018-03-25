@@ -22,8 +22,8 @@ restService.post("/apisearch", function(req, res) {
   var speech =
     req.body.result &&
     req.body.result.parameters &&
-    req.body.result.parameters.echoText
-      ? req.body.result.parameters.echoText
+    req.body.result.parameters.Proxylist
+      ? req.body.result.parameters.Proxylist
       : "Seems like some problem. Speak again.";
 
       console.log("----1-----"+req.query.echoText)
@@ -130,7 +130,7 @@ restService.post("/apisearch", function(req, res) {
       });
   }else{
     return res.json({
-                speech: "newstring",//JSON.parse(body),
+                speech: req.body.result.parameters.Proxylist,//JSON.parse(body),
                 displayText: "{product,customer,listing,location}",
                 source: "Apisearch"
                 
