@@ -6,6 +6,7 @@ var os = require("os");
 
 const restService = express();
 var apigeeUri ="https://api.enterprise.apigee.com/v1/organizations/venu1178/apis";
+var kvmuri ="https://api.enterprise.apigee.com/v1/organizations/venu1178/environments/test/keyvaluemaps"
 var contenttype = 'application/x-www-form-urlencoded';
 var auth = 'Basic dmVudWdvd2RhQGdtYWlsLmNvbTpBcGlnZWVAMTE3OA==';
 
@@ -36,7 +37,7 @@ restService.post("/apisearch", function(req, res) {
 
   if(Proxylist!=null || proxyName != null){
     console.log("-------2-----"+"api serach")
-    var apiName = req.query.apiName;
+    
     if(proxyName != null){
       console.log("not undefined "+"apiserach")
       apigeeUri ="https://api.enterprise.apigee.com/v1/organizations/venu1178/apis/"+proxyName;
@@ -101,9 +102,10 @@ restService.post("/apisearch", function(req, res) {
 
   }else if(kvmList!=null || kvmName != null){
     
-    var kvmuri ="https://api.enterprise.apigee.com/v1/organizations/venu1178/environments/test/keyvaluemaps"
     if(kvmName!=null){
       kvmuri ="https://api.enterprise.apigee.com/v1/organizations/venu1178/environments/test/keyvaluemaps/"+kvmName
+    }else{
+      kvmuri ="https://api.enterprise.apigee.com/v1/organizations/venu1178/environments/test/keyvaluemaps";
     }
      require('request').get({
                 uri:kvmuri,
