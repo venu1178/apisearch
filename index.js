@@ -27,8 +27,6 @@ restService.post("/apisearch", function(req, res) {
       ? req.body.result.parameters.Proxylist
       : "Seems like some problem. Speak again.";
 
-      console.log("----1-----"+req.query.echoText)
-      console.log("----api name "+req.query.apiName)
       var Proxylist = req.body.result.parameters.Proxylist
       var proxyName = req.body.result.parameters.proxyName
       var depName =req.body.result.parameters.depName
@@ -36,12 +34,10 @@ restService.post("/apisearch", function(req, res) {
       var kvmName = req.body.result.parameters.kvmName
 
   if(Proxylist!=null || proxyName != null){
-    console.log("-------2-----"+"api serach")
     
     if(proxyName != null){
       console.log("not undefined "+"apiserach")
       apigeeUri ="https://api.enterprise.apigee.com/v1/organizations/venu1178/apis/"+proxyName;
-      apiName = null;
     }else{
       apigeeUri ="https://api.enterprise.apigee.com/v1/organizations/venu1178/apis"
     }
@@ -68,7 +64,6 @@ restService.post("/apisearch", function(req, res) {
                 source: "Apisearch"
                 
               });
-            apiName = null;
       });
    
   }else if(depName!=null){
@@ -97,7 +92,6 @@ restService.post("/apisearch", function(req, res) {
                 displayText: "{product,customer,listing,location}",
                 source: "Apisearch"
               });
-            apiName = null;
       });
 
   }else if(kvmList!=null || kvmName != null){
